@@ -1,0 +1,68 @@
+<app-sidebar></app-sidebar>
+<div class="container">
+    <h1>Gestión de Médicos</h1>
+  
+    <button class="add-btn" (click)="showDialogCreate()">Nuevo Médico</button>
+  
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Estado</th>
+          <th>Especialidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ngFor="let medico of medicos">
+          <td>{{ medico.id }}</td>
+          <td>{{ medico.nombre }}</td>
+          <td>{{ medico.apellido }}</td>
+          <td>{{ medico.estado === '1' ? 'Activo' : 'Inactivo' }}</td>
+          <td>{{ medico.especialidad.nombre }}</td>
+          <td class="actions">
+            <button class="edit-btn" (click)="showDialogEdit(medico.id)">Editar</button>
+            <button class="delete-btn" (click)="deleteMedico(medico.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <p-dialog [(visible)]="visible" [modal]="true" [header]="titulo" [closable]="false">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" pInputText [(ngModel)]="medico.nombre" />
+        </div>
+        <div class="p-field">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" type="text" pInputText [(ngModel)]="medico.apellido" />
+        </div>
+        <div class="p-field">
+          <label for="estado">Estado</label>
+          <select id="estado" [(ngModel)]="medico.estado">
+            <option *ngFor="let estado of estados" [value]="estado.value">
+              {{ estado.label }}
+            </option>
+          </select>
+        </div>
+        <div class="p-field">
+          <label for="especialidad">Especialidad</label>
+          <select id="especialidad" [(ngModel)]="medico.especialidad.id">
+            <option *ngFor="let especialidad of especialidades" [value]="especialidad.id">
+              {{ especialidad.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="p-dialog-footer">
+        <button class="cancel-btn" (click)="visible = false">Cancelar</button>
+        <button class="save-btn" (click)="op === 0 ? addMedico() : updateMedico()">
+          {{ opc }}
+        </button>
+      </div>
+    </p-dialog>
+  </div>
+  

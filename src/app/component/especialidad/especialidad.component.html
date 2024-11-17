@@ -1,0 +1,57 @@
+<app-sidebar></app-sidebar>
+<div class="container">
+    
+    <h1>Gestión de Especialidades</h1>
+  
+   
+    <p-table [value]="especialidades" [responsiveLayout]="'scroll'" class="custom-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-especialidad>
+        <tr>
+          <td>{{ especialidad.id }}</td>
+          <td>{{ especialidad.nombre }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" label="Editar"
+              class="p-button-sm p-button-text p-button-warning"
+              (click)="showDialogEdit(especialidad)">
+            </button>
+            <button pButton type="button" icon="pi pi-trash" label="Eliminar"
+              class="p-button-sm p-button-text p-button-danger"
+              (click)="deleteEspecialidad(especialidad.id)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <!-- Botón para crear especialidad -->
+    <button pButton type="button" label="Nueva Especialidad" icon="pi pi-plus"
+      class="p-button-success mt-3" (click)="showDialogCreate()">
+    </button>
+  
+    <!-- Diálogo para crear/editar especialidad -->
+    <p-dialog [(visible)]="visible" [modal]="true" [header]="titulo" [closable]="false">
+      <div class="p-fluid">
+        <div class="p-field">
+          <label for="nombre">Nombre de la Especialidad</label>
+          <input id="nombre" type="text" pInputText [(ngModel)]="especialidad.nombre" />
+        </div>
+      </div>
+      <div class="p-dialog-footer">
+        <button pButton type="button" label="Cancelar" icon="pi pi-times"
+          class="p-button-text" (click)="visible = false">
+        </button>
+        <button pButton type="button" [label]="opc? 'Guardar' : 'Actualizar'"
+          icon="pi pi-check" class="p-button-primary"
+          (click)="opc? addEspecialidad() : updateEspecialidad()">
+        </button>
+      </div>
+    </p-dialog>
+  </div>
+  
